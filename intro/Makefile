@@ -1,11 +1,19 @@
 include ../Make.defines
 
+CFLAGS += -Iinclude
+
 PROGS =	daytimetcpcli daytimetcpcli1 daytimetcpcli2 daytimetcpcli3 \
 		daytimetcpsrv daytimetcpsrv1 daytimetcpsrv2 daytimetcpsrv3 \
-		daytimetcpcliv6 daytimetcpsrvv6 \
+		daytimetcpcliv6 daytimetcpsrvv6 im_tcp_srv im_tcp_cli\
 		byteorder
 
 all:	${PROGS}
+
+im_tcp_srv:	im_tcp_srv.o
+		${CC} ${CFLAGS} -o $@ im_tcp_srv.o ${LIBS}
+
+im_tcp_cli:	im_tcp_cli.o
+		${CC} ${CFLAGS} -o $@ im_tcp_cli.o ${LIBS}
 
 daytimetcpcli:	daytimetcpcli.o
 		${CC} ${CFLAGS} -o $@ daytimetcpcli.o ${LIBS}
