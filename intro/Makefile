@@ -4,16 +4,26 @@ CFLAGS += -Iinclude
 
 PROGS =	daytimetcpcli daytimetcpcli1 daytimetcpcli2 daytimetcpcli3 \
 		daytimetcpsrv daytimetcpsrv1 daytimetcpsrv2 daytimetcpsrv3 \
-		daytimetcpcliv6 daytimetcpsrvv6 im_tcp_srv im_tcp_cli\
-		byteorder
+		daytimetcpcliv6 daytimetcpsrvv6 im_tcp_srv im_tcp_cli im_srv_select \
+		im_cli_select byteorder scp_to_srv
 
 all:	${PROGS}
+
+scp_to_srv:	im_tcp_srv im_srv_select
+		scp im_tcp_srv im_srv_select ubuntu@1.15.92.237:/home/ubuntu/im_tcp_srv/
 
 im_tcp_srv:	im_tcp_srv.o
 		${CC} ${CFLAGS} -o $@ im_tcp_srv.o ${LIBS}
 
 im_tcp_cli:	im_tcp_cli.o
 		${CC} ${CFLAGS} -o $@ im_tcp_cli.o ${LIBS}
+
+im_srv_select:	im_srv_select.o
+		${CC} ${CFLAGS} -o $@ im_srv_select.o ${LIBS}
+		scp im_srv_select ubuntu@1.15.92.237:/home/ubuntu/im_tcp_srv/
+
+im_cli_select:	im_cli_select.o
+		${CC} ${CFLAGS} -o $@ im_cli_select.o ${LIBS}
 
 daytimetcpcli:	daytimetcpcli.o
 		${CC} ${CFLAGS} -o $@ daytimetcpcli.o ${LIBS}

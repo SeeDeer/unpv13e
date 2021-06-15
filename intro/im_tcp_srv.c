@@ -3,7 +3,7 @@
  * @author: xxx
  * @brief: 即时TCP聊天工具 的服务端实现
  * @version: 1.0.0
- * @LastEditTime: 2021-06-14 17:53:59
+ * @LastEditTime: 2021-06-15 08:21:32
  * @attention: Do not edit
  *************************************************************************/
 
@@ -90,8 +90,8 @@ int main(int argc, char **argv)
 				ret = read(clientFd, recv_buf, MAXLINE);	// 阻塞，等待数据到达
 				if (ret > 0){
                     memset(send_buf,0,sizeof(send_buf));
-                    memcpy(send_buf, recv_buf,ret);
-					// fputs(recv_buf, stdout);
+                    strncpy(send_buf, recv_buf,ret);
+					printf("send:%s\n",send_buf);
 				}else if(ret == 0){
 					my_tcp_status = TCP_DISCONNECT_SUCCESS;
 					continue;
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 					exit(0);
 				}
 				// 发送数据
-				write(clientFd, send_buf, strlen(send_buf));
+				ret = write(clientFd, send_buf, strlen(send_buf));
 			}break;
 			case TCP_DISCONNECT_SUCCESS:{
 				printf("client disconnect...\n");

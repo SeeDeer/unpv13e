@@ -3,7 +3,7 @@
  * @author: xxx
  * @brief: 实现一个tcp客户端的功能，和服务端建立连接并通信
  * @version: 1.0.0
- * @LastEditTime: 2021-06-14 17:51:51
+ * @LastEditTime: 2021-06-15 08:22:50
  * @attention: Do not edit
  *************************************************************************/
 
@@ -88,9 +88,7 @@ int main(int argc, char **argv)
 
 	// 读取服务器返回的数据，并打印出来
 	while ( (n = read(sockfd, recv_buf, MAXLINE)) > 0) {
-		recv_buf[n] = 0;
-		if (fputs(recv_buf, stdout) == EOF)
-			err_sys("fputs error");
+        printf("read: %s\n", recv_buf);
 	}
 	if (n < 0)
 		err_sys("read error");
@@ -113,6 +111,7 @@ uint8_t *copy_file_data_to_ram(char *file_name, uint32_t size)
         fclose(fp);
 		return NULL;
     }
+    printf("file size: %ld Bytes\n", statbuff.st_size);
 	uint32_t read_size = 0;
     if (size > statbuff.st_size){
         read_size = statbuff.st_size;
